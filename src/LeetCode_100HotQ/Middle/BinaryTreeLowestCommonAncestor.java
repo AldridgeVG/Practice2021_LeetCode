@@ -29,7 +29,7 @@ public class BinaryTreeLowestCommonAncestor {
     }
 
     public static void main(String[] args) {
-        System.out.println(LCA(3, 4, new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)), new TreeNode(3, new TreeNode(6), new TreeNode(7)))));
+        System.out.println(LCA1(3, 4, new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)), new TreeNode(3, new TreeNode(6), new TreeNode(7)))));
     }
 
     public static TreeNode LCA(int n1, int n2, TreeNode root) {
@@ -44,11 +44,26 @@ public class BinaryTreeLowestCommonAncestor {
         // 左右子树均未找到则返回 null
         if (left == null && right == null)
             return null;
-        // 左右子树分别含有 n1/ n2, 找到LCA
+            // 左右子树分别含有 n1/ n2, 找到LCA
         else if (left != null && right != null)
             return root;
-        // 左右子树之一不为空，说明不为空的那个结果为下面传递上来的 LCA
+            // 左右子树之一不为空，说明不为空的那个结果为下面传递上来的 LCA
         else
             return left == null ? right : left;
     }
+
+    public static TreeNode LCA1(int n1, int n2, TreeNode root) {
+        // find n1 / n2 or reach leaves
+        if (root == null || root.val == n1 || root.val == n2) return root;
+        TreeNode left = LCA1(n1, n2, root.left);
+        TreeNode right = LCA1(n1, n2, root.right);
+        // find LCA,
+        if(left!=null && right!=null) return root;
+        // 向上传递
+        else if(left!=null) return left;
+        else if(right!=null) return right;
+        // 这颗子树上未找到任意一个
+        else return null;
+    }
+
 }
