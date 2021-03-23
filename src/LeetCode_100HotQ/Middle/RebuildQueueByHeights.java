@@ -19,6 +19,7 @@ public class RebuildQueueByHeights {
      * 2. 从第二属性为 0 的人开始插入，因为可以直接放在队头
      */
     public static int[][] reconstructQueue(int[][] people) {
+        // 存放每个身高对应的第二个属性，即其之前的人数
         Map<Integer, List<Integer>> hpmap = new HashMap<>();
         for (int[] p : people) {
             if (hpmap.get(p[0]) == null)
@@ -26,6 +27,7 @@ public class RebuildQueueByHeights {
             else
                 hpmap.get(p[0]).add(p[1]);
         }
+        // 从高到低开始插入返回列表
         List<Integer> heights = new ArrayList<>(hpmap.keySet());
         heights.sort(new Comparator<Integer>() {
             @Override
@@ -35,6 +37,20 @@ public class RebuildQueueByHeights {
         });
         List<List<Integer>> ret = new LinkedList<>();
         for (Integer curHeight : heights) {
+            // 获取当前身高所有人的位置
+            // 由于从最高身高开始，比起高或一样高的人只在这一组里以及之前已插入的人中
+            /*
+             * 例如从7开始，7，0和 7，1 分别在下标 0，1 上
+             * 7，7
+             *
+             * 再到6，如果有 6，0，说明其之前没有7，直接放在下标 0 上
+             * 6，7，7
+             * 再判断到 6，2，说明其之前有两个 6 或 7，放在下标 2 即可
+             * 6，7，6，7
+             *
+             * 依此类推，只要按照身高递减、第二属性递增的顺序插入，可以直接将第二属性作为下标
+             * 因为 List 按照 add(index, Object) 的方式插入后，之后的元素都将依次后退。
+             */
             List<Integer> poses = hpmap.get(curHeight);
             poses.sort(null);
             for (Integer pos : poses) {

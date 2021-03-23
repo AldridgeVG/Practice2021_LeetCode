@@ -2,16 +2,16 @@ package LeetCode_100HotQ.Middle;
 
 /**
  * 给定一个二维网格和一个单词，找出该单词是否存在于网格中。
- *
+ * <p>
  * 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
- *
+ * <p>
  * e.g. board =
  * [
- *   ['A','B','C','E'],
- *   ['S','F','C','S'],
- *   ['A','D','E','E']
+ * ['A','B','C','E'],
+ * ['S','F','C','S'],
+ * ['A','D','E','E']
  * ]
- *
+ * <p>
  * 给定 word = "ABCCED", 返回 true
  * 给定 word = "SEE", 返回 true
  * 给定 word = "ABCB", 返回 false
@@ -37,7 +37,7 @@ public class FindWordInGrids {
     }
 
     // 搜索的四个方向
-    private static int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    private final static int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
     /**
      * check(i,j,k) 判断以网格的 (i,j) 位置出发，能否搜索到单词 word[k..]，其中 word[k..] 表示字符串 word 从第 k 个字符开始的后缀子串
@@ -47,7 +47,7 @@ public class FindWordInGrids {
     public static boolean check(char[][] board, boolean[][] visited, int i, int j, String s, int k) {
         // 当前字符不匹配
         if (board[i][j] != s.charAt(k)) return false;
-        // 当前字符匹配且已经完全匹配
+            // 当前字符匹配且已经完全匹配
         else if (k == s.length() - 1) return true;
 
         // 需要继续匹配
